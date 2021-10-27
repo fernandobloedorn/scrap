@@ -1,6 +1,5 @@
 from utils import save_file
-import datetime
-print(datetime.datetime.now())
+from time import gmtime, strftime
 
-save_file(datetime.datetime.now(), "fer.txt")
+save_file(strftime("%Y-%m-%d %H:%M:%S", gmtime()), "fer.txt")
 
