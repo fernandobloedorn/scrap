@@ -227,7 +227,7 @@ try:
     driver = webdriver.Chrome('/usr/local/bin/chromedriver',chrome_options=chrome_options)
     buscaDados()
     json = json.dumps([ob.__dict__ for ob in itens])
-    save_file(json, "embramaco.json")
+    save_file(json, "/home/ubuntu/python/scrap/embramaco.json")
 
 except Exception as e:
     print("ERROR:", e)
