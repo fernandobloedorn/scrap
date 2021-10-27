@@ -41,7 +41,7 @@ def buscaDados():
         print("ERROR:", e)
 
 try:
-    driver = webdriver.Chrome('/usr/local/bin/chromedriver',chrome_options=chrome_options)
+    driver = webdriver.Chrome('/usr/local/bin/chromedriver', options=chrome_options)
     buscaDados()
 
 except Exception as e:
