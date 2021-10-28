@@ -3,12 +3,12 @@ from .connection_service import getConnectin
 def saveOrUpdate(produtos):
     conn = getConnectin()
     cur = conn.cursor()
-    cur.execute( "SELECT cadastra_produto('3', 'nome alterado', 'nome 2', 'ref', 1.0, '', '');" )
+    
+    for p in produtos:
+        print(p.codigo, p.produto)
+        cur.execute( "SELECT cadastra_produto('" + p.codigo + "', '" + p.produto + "', '', '" + p.ref + "', 0.0, '', '');" )
+        print("Salvou")
     conn.close()
-    print("Salvou")
-    # createOrReplaceFunction()
-    # for p in produtos:
-    #     print(p.codigo, p.produto)
 
 # def createOrReplaceFunction():
 #     print("create function")
