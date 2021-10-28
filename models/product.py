@@ -1,1 +1,4 @@
-ass
+
+class Product:
+   codigo = ''
+   produto = ''
