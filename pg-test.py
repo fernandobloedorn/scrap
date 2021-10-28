@@ -1,4 +1,5 @@
 import os
+import psycopg
 from dotenv import load_dotenv
 from services.produto_service import saveOrUpdate
 from services.connection_service import getConnectin
