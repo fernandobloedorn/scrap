@@ -1,4 +1,4 @@
-from .connection_service import getConnectin
+from services.connection_service import getConnectin
 
 def saveOrUpdate(produtos):
     conn = getConnectin()
