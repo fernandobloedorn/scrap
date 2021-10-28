@@ -44,11 +44,11 @@ def buscaDados():
         print("Page title=>", driver.title)
 
         element = driver.find_element_by_xpath("/html/body/form/table/tbody/tr[2]/td[2]/input")
-        element.send_keys("27912614000104")
+        element.send_keys("abc")
         driver.implicitly_wait(1)
 
         element = driver.find_element_by_xpath("/html/body/form/table/tbody/tr[3]/td[2]/input")
-        element.send_keys("EXP2791RS")
+        element.send_keys("123")
         driver.implicitly_wait(1)
 
         element = driver.find_element_by_xpath("/html/body/form/table/tbody/tr[5]/td[2]/input")
