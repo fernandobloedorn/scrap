@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from services.produto_service import saveOrUpdate
+from services.product_service import saveOrUpdate
 from services.connection_service import getConnectin
 from models.product import Product
 
