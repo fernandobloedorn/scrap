@@ -82,8 +82,8 @@ def getStocks(driver: WebDriver):
 
       for tr in trs:
          
-         if cont % 10 == 0:
-            print("Processadas " + str(cont) + ' linhas...')
+         # if cont % 10 == 0:
+         print("Processadas " + str(cont) + ' linhas...')
          
          cont = cont + 1
          if cont <= 2:
@@ -117,6 +117,8 @@ def getStocks(driver: WebDriver):
             elif col == 8:
                item.programacao = text
          
+         print(text)
+
          itens.append(item)
 
          if cont == 10:
