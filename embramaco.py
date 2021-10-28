@@ -8,6 +8,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
+from services.product_service import saveOrUpdate
+from services.connection_service import getConnectin
+from models.product import Product
+
 import time
 from dotenv import load_dotenv
 
@@ -138,8 +142,9 @@ try:
    service = Service(os.environ['CHROME_DRIVER_PATH'])
    driver = webdriver.Chrome(service=service, options=chrome_options)
    itens = getStocks(driver)
-   jsonData = json.dumps([ob.__dict__ for ob in itens])
-   save_file(jsonData, "estoque_embramaco.json")
+   # jsonData = json.dumps([ob.__dict__ for ob in itens])
+   # save_file(jsonData, "estoque_embramaco2.json")
+   saveOrUpdate(itens)
 
 except Exception as e:
    print("ERROR:", e)
