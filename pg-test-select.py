@@ -7,7 +7,6 @@ from models.product import Product
 load_dotenv()
 
 conn = getConnection()
-
 cur = conn.cursor()
 
 cur.execute("SELECT id FROM produto WHERE codigo = %s", ("12",))
@@ -26,12 +25,12 @@ cur.execute("INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNIN
 conn.commit()
 id = cur.fetchone()[0]
 print("ID insert:", id, "Type:", type(id))
-cur.close()
+
 
 # for id in cur.fetchall() :
 #     print(type(id))
 #     print("ID:", id )
 
-
+cur.close()
 conn.close()
 

@@ -1,6 +1,6 @@
 from .connection_service import getConnection
 
-def saveOrUpdate(produtos):
+def saveOrUpdateOld(produtos):
     
     # conn = getConnectin()
     # cur = conn.cursor()
@@ -24,6 +24,48 @@ def saveOrUpdate(produtos):
         conn.close()
         print("Salvou 1")
 
+
+def saveOrUpdate(produtos):
+    
+    conn = getConnection()
+    cur = conn.cursor()
+
+    for produto in produtos:
+
+        cur.execute("SELECT id FROM produto WHERE codigo = %s", (produto.codigo,))
+        result = cur.fetchone()
+
+        id = None 
+
+        if result is not None:
+            id = result[0]
+            print("ID update:", id, "Type:", type(id))
+
+            cur.execute("UPDATE produto SET nome_tecnico = %s WHERE id = %d;", (produto.produto, id))
+            conn.commit()
+
+        else:
+            cur.execute("INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;", (produto.codigo, produto.produto))
+            conn.commit()
+            id = cur.fetchone()[0]
+            print("ID insert:", id, "Type:", type(id))
+
+        if id is not None:
+            print("ID OK")
+        else:
+            print("ID Nao OK: ", produto.codigo)
+
+            # print(p.codigo, "-", p.produto)
+        
+        # sql = "SELECT cadastra_produto('" + p.codigo + "', '" + p.produto + "', '', '" + p.ref + "', 0.0, '', '');"
+        # print(sql)
+        # cur.execute(sql)
+        # conn.commit()
+        
+        print("Salvou 1")
+
+    cur.close()
+    conn.close()
 
 # CREATE OR REPLACE FUNCTION cadastra_produto(character, character, character, character, numeric, character, character)
 #   RETURNS void AS
