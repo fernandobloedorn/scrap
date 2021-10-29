@@ -9,6 +9,7 @@ load_dotenv()
 conn = getConnection()
 
 cur = conn.cursor()
+
 cur.execute("SELECT id FROM produto WHERE codigo = %s", ("12",))
 
 result = cur.fetchone()
@@ -16,11 +17,11 @@ result = cur.fetchone()
 if result is not None:
     id = result[0]
     print("ID:", id, "Type:", type(id))
-cur.close()
+# cur.close()
 
 print("-----------------")
 
-cur = conn.cursor()
+# cur = conn.cursor()
 cur.execute("INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;", ("13", "Teste 13"))
 conn.commit()
 id = cur.fetchone()[0]
