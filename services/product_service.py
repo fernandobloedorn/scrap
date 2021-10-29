@@ -1,29 +1,8 @@
 from .connection_service import getConnection
 
-def saveOrUpdateOld(produtos):
-    
-    # conn = getConnectin()
-    # cur = conn.cursor()
-    # sql = "SELECT cadastra_produto('12', 'teste', '', 'A', 0.0, '', '');"
-    # # sql = "Insert into produto (codigo, nome_tecnico) values ('45', 'teste');"
-    # print(sql)
-    # cur.execute(sql)
-    # conn.commit() # <- We MUST commit to reflect the inserted data
-    # cur.close()
-    # conn.close()
-
-    for p in produtos:
-        print(p.codigo, "-", p.produto)
-        conn = getConnection()
-        cur = conn.cursor()
-        sql = "SELECT cadastra_produto('" + p.codigo + "', '" + p.produto + "', '', '" + p.ref + "', 0.0, '', '');"
-        print(sql)
-        cur.execute(sql)
-        conn.commit()
-        cur.close()
-        conn.close()
-        print("Salvou 1")
-
+SELECT = "SELECT id FROM produto WHERE codigo = %s"
+INSERT = "INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;"
+UPDATE = "UPDATE produto SET nome_tecnico = %s WHERE id = %s;"
 
 def saveOrUpdate(produtos):
     
@@ -32,7 +11,7 @@ def saveOrUpdate(produtos):
 
     for produto in produtos:
 
-        cur.execute("SELECT id FROM produto WHERE codigo = %s", (produto.codigo,))
+        cur.execute(SELECT, (produto.codigo,))
         result = cur.fetchone()
 
         id = None 
@@ -41,11 +20,11 @@ def saveOrUpdate(produtos):
             id = result[0]
             print("ID update:", id, "Type:", type(id))
 
-            cur.execute("UPDATE produto SET nome_tecnico = %s WHERE id = %s;", (produto.produto, id))
+            cur.execute(UPDATE, (produto.produto, id))
             conn.commit()
 
         else:
-            cur.execute("INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;", (produto.codigo, produto.produto))
+            cur.execute(INSERT, (produto.codigo, produto.produto))
             conn.commit()
             id = cur.fetchone()[0]
             print("ID insert:", id, "Type:", type(id))
@@ -62,8 +41,6 @@ def saveOrUpdate(produtos):
         # cur.execute(sql)
         # conn.commit()
         
-        print("Salvou 1")
-
     cur.close()
     conn.close()
 
@@ -95,3 +72,27 @@ def saveOrUpdate(produtos):
 #     cur = conn.cursor()
 #     cur.execute( "SELECT id, name FROM cliente" )
 #     conn.close()
+
+# def saveOrUpdateOld(produtos):
+    
+#     # conn = getConnectin()
+#     # cur = conn.cursor()
+#     # sql = "SELECT cadastra_produto('12', 'teste', '', 'A', 0.0, '', '');"
+#     # # sql = "Insert into produto (codigo, nome_tecnico) values ('45', 'teste');"
+#     # print(sql)
+#     # cur.execute(sql)
+#     # conn.commit() # <- We MUST commit to reflect the inserted data
+#     # cur.close()
+#     # conn.close()
+
+#     for p in produtos:
+#         print(p.codigo, "-", p.produto)
+#         conn = getConnection()
+#         cur = conn.cursor()
+#         sql = "SELECT cadastra_produto('" + p.codigo + "', '" + p.produto + "', '', '" + p.ref + "', 0.0, '', '');"
+#         print(sql)
+#         cur.execute(sql)
+#         conn.commit()
+#         cur.close()
+#         conn.close()
+#         print("Salvou 1")
