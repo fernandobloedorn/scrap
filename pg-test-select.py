@@ -9,7 +9,7 @@ load_dotenv()
 conn = getConnection()
 cur = conn.cursor()
 
-cur.execute("SELECT id FROM produto WHERE codigo = %s", ("12",))
+cur.execute("SELECT id FROM produto WHERE id = %s", (20,))
 
 result = cur.fetchone()
 

@@ -41,7 +41,7 @@ def saveOrUpdate(produtos):
             id = result[0]
             print("ID update:", id, "Type:", type(id))
 
-            cur.execute("UPDATE produto SET nome_tecnico = %s WHERE id = %d;", (produto.produto, id))
+            cur.execute("UPDATE produto SET nome_tecnico = %s WHERE id = %s;", (produto.produto, id))
             conn.commit()
 
         else:
