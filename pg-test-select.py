@@ -11,7 +11,7 @@ cur = conn.cursor()
 cur.execute("SELECT id FROM produto WHERE codigo = '12'")
 
 if cur.fetchone() is not None:
-    id = cur.fetchone()[0]
+    id = cur.fetchone()
     print(type(id))
 
 # for id in cur.fetchall() :
