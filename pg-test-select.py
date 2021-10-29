@@ -22,6 +22,7 @@ print("-----------------")
 
 cur = conn.cursor()
 cur.execute("INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;", ("13", "Teste 13"))
+conn.commit()
 id = cur.fetchone()[0]
 print("ID insert:", id, "Type:", type(id))
 cur.close()
