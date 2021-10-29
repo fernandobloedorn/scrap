@@ -10,8 +10,10 @@ conn = getConnection()
 cur = conn.cursor()
 cur.execute("SELECT id FROM produto WHERE codigo = '12'")
 
-if cur.fetchone() is not None:
-    id = cur.fetchone()
+result = cur.fetchone()
+
+if result is not None:
+    id = result[0]
     print(type(id))
 
 # for id in cur.fetchall() :
