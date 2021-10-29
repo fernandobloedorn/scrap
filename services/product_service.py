@@ -4,7 +4,8 @@ def saveOrUpdate(produtos):
     
     conn = getConnectin()
     cur = conn.cursor()
-    sql = "SELECT cadastra_produto('12', 'teste', '', 'A', 0.0, '', '');"
+    # sql = "SELECT cadastra_produto('12', 'teste', '', 'A', 0.0, '', '');"
+    sql = "Insert into produto (codigo, nome_tecnico) values ('45', 'teste');"
     print(sql)
     cur.execute(sql)
     conn.close()
