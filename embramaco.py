@@ -82,12 +82,15 @@ def getStocks(driver: WebDriver):
 
       for tr in trs:
          
-         # if cont % 10 == 0:
-         print("Processadas " + str(cont) + ' linhas...')
+         if cont % 10 == 0:
+            print("Processadas " + str(cont) + ' linhas...')
          
          cont = cont + 1
          if cont <= 2:
             continue
+
+         if cont >= 20:
+             break;
          
          tds = tr.find_elements(By.TAG_NAME, 'td')
          
@@ -121,8 +124,8 @@ def getStocks(driver: WebDriver):
 
          itens.append(item)
 
-         if cont == 20:
-             break;
+         print("Adiciou ", item.produto)
+         
          
    except Exception as e:
       print("ERROR:", e)
