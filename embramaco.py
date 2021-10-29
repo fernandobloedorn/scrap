@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 
 from services.product_service import saveOrUpdate
-from services.connection_service import getConnectin
+from services.connection_service import getConnection
 from models.product import Product
 
 import time
@@ -117,11 +117,11 @@ def getStocks(driver: WebDriver):
             elif col == 8:
                item.programacao = text
          
-         print(text)
+         # print(text)
 
          itens.append(item)
 
-         if cont == 10:
+         if cont == 20:
              break;
          
    except Exception as e:
