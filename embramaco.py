@@ -124,7 +124,7 @@ def getStocks(driver: WebDriver):
 
          itens.append(item)
 
-         print("Adiciou ", item.produto)
+         # print("Adiciou ", item.produto)
          
          
    except Exception as e:
