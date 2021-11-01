@@ -1,9 +1,13 @@
 from .connection_service import getConnection
 import util.date_util as dateUtil
 
-SELECT = "SELECT id FROM produto WHERE codigo = %s;"
-INSERT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha, dt_cadastro) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP) RETURNING id;"
-UPDATE = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
+SELECT_PRODUCT = "SELECT id FROM produto WHERE codigo = %s;"
+INSERT_PRODUCT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
+UPDATE_PRODUCT = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
+
+SELECT_LOT = "SELECT id FROM produto_lote WHERE produto_id = %s AND lote = %s;"
+INSERT_LOT = "INSERT INTO produto_lote (produto_id, lote, saldo_cdi, saldo_embramaco, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
+UPDATE_LOT = "UPDATE produto SET saldo_cdi = %s, saldo_embramaco = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
 
 def saveOrUpdate(products):
     
@@ -12,28 +16,37 @@ def saveOrUpdate(products):
 
     for product in products:
 
-        cur.execute(SELECT, (product.code,))
+        cur.execute(SELECT_PRODUCT, (product.code,))
         result = cur.fetchone()
 
-        id = None 
+        idProduct = None 
 
         if result is not None:
-            id = result[0]
-            # print("ID update:", id, "Type:", type(id))
-
-            cur.execute(UPDATE, (product.name, product.reference, product.line, id))
+            idProduct = result[0]
+            cur.execute(UPDATE_PRODUCT, (product.name, product.reference, product.line, idProduct))
             conn.commit()
 
         else:
-            cur.execute(INSERT, (product.code, product.name, product.reference, product.line))
+            cur.execute(INSERT_PRODUCT, (product.code, product.name, product.reference, product.line))
             conn.commit()
-            id = cur.fetchone()[0]
-            # print("ID insert:", id, "Type:", type(id))
+            idProduct = cur.fetchone()[0]
 
-        # if id is not None:
-        #     print("ID OK")
-        # else:
-        #     print("ID Nao OK: ", produto.codigo)
+        if idProduct is not None:
+            cur.execute(SELECT_LOT, (idProduct, product.lot))
+            result = cur.fetchone()
+
+            idLot = None 
+
+            if result is not None:
+                idLot = result[0]
+                cur.execute(UPDATE_LOT, (product.inventory_cdi, product.inventory_embraco, idLot))
+                conn.commit()
+
+            else:
+                cur.execute(INSERT_LOT, (idProduct, product.lot, product.inventory_cdi, product.inventory_embraco))
+                conn.commit()
+                idProduct = cur.fetchone()[0]
+
 
             # print(p.codigo, "-", p.produto)
         
