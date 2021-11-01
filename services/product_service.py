@@ -1,17 +1,17 @@
 from .connection_service import getConnection
 
 SELECT = "SELECT id FROM produto WHERE codigo = %s;"
-INSERT = "INSERT INTO produto (codigo, nome_tecnico) VALUES( %s, %s) RETURNING id;"
-UPDATE = "UPDATE produto SET nome_tecnico = %s WHERE id = %s;"
+INSERT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha) VALUES( %s, %s) RETURNING id;"
+UPDATE = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s WHERE id = %s;"
 
-def saveOrUpdate(produtos):
+def saveOrUpdate(products):
     
     conn = getConnection()
     cur = conn.cursor()
 
-    for produto in produtos:
+    for product in products:
 
-        cur.execute(SELECT, (produto.codigo,))
+        cur.execute(SELECT, (product.code,))
         result = cur.fetchone()
 
         id = None 
@@ -20,11 +20,11 @@ def saveOrUpdate(produtos):
             id = result[0]
             # print("ID update:", id, "Type:", type(id))
 
-            cur.execute(UPDATE, (produto.produto, id))
+            cur.execute(UPDATE, (product.name, product.reference, product.line, id))
             conn.commit()
 
         else:
-            cur.execute(INSERT, (produto.codigo, produto.produto))
+            cur.execute(INSERT, (product.code, product.name, product.reference, product.line))
             conn.commit()
             id = cur.fetchone()[0]
             # print("ID insert:", id, "Type:", type(id))

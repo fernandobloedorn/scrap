@@ -143,7 +143,7 @@ try:
    products = getStocks(driver)
    # jsonData = json.dumps([ob.__dict__ for ob in itens])
    # save_file(jsonData, "estoque_embramaco2.json")
-   # saveOrUpdate(products)
+   saveOrUpdate(products)
 
 except Exception as e:
    print("ERROR:", e)
