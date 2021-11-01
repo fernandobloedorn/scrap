@@ -106,11 +106,11 @@ def getStocks(driver: WebDriver):
             elif col == 5:
                product.lot = text
             elif col == 6:
-               product.inventory_cdi = text
+               product.inventory_cdi = floatUtil.parse(text)
             elif col == 7:
-               product.inventory_embramaco = text
+               product.inventory_embramaco = floatUtil.parse(text)
             elif col == 8:
-               product.programation = text
+               product.programation = dateUtil.parse(text)
          
          # print(text)
 
