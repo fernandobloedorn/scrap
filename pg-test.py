@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 from services.product_service import saveOrUpdate
-from services.connection_service import getConnectin
 from models.product import Product
 import util.float_util as floatUtil
 import util.date_util as dateUtil
