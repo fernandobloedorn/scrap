@@ -11,23 +11,15 @@ from selenium.webdriver.chrome.service import Service
 from services.product_service import saveOrUpdate
 from services.connection_service import getConnection
 from models.product import Product
+import util.float_util as floatUtil
+import util.date_util as dateUtil
 
 import time
 from dotenv import load_dotenv
 
-class Produto:
-   codigo = ''
-   produto = ''
-   linha = ''
-   ref = ''
-   lote = ''
-   saldoCdi = ''
-   saldoEmbramaco = ''
-   programacao = ''
-
 def getStocks(driver: WebDriver):
 
-   itens = []
+   products = []
 
    try:
 
@@ -89,8 +81,8 @@ def getStocks(driver: WebDriver):
          if cont <= 2:
             continue
 
-         # if cont >= 20:
-         #     break;
+         if cont >= 20:
+             break;
          
          tds = tr.find_elements(By.TAG_NAME, 'td')
          
@@ -98,31 +90,33 @@ def getStocks(driver: WebDriver):
             continue
          
          col = 0
-         item = Produto()
+         product = Product()
          
          for td in tds:
             text = td.text.strip()
             col = col + 1
             if col == 1:
-               item.codigo = text
+               product.code = text
             elif col == 2:
-               item.produto = text
+               product.name = text
             elif col == 3:
-               item.linha = text
+               product.line = text
             elif col == 4:
-               item.ref = text
+               product.reference = text
             elif col == 5:
-               item.lote = text
+               product.lot = text
             elif col == 6:
-               item.saldoCdi = text
+               product.inventory_cdi = text
             elif col == 7:
-               item.saldoEmbramaco = text
+               product.inventory_embramaco = text
             elif col == 8:
-               item.programacao = text
+               product.programation = text
          
          # print(text)
 
-         itens.append(item)
+         print(product.code, product.name, product.line, product.reference, product.lot, product.inventory_cdi, product.inventory_embramaco, product.programation)
+
+         products.append(product)
 
          # print("Adiciou ", item.produto)
          
@@ -130,7 +124,7 @@ def getStocks(driver: WebDriver):
    except Exception as e:
       print("ERROR:", e)
 
-   return itens
+   return products
 
 
 load_dotenv()
@@ -146,10 +140,10 @@ chrome_options.add_argument("--remote-debugging-port=9222")
 try:
    service = Service(os.environ['CHROME_DRIVER_PATH'])
    driver = webdriver.Chrome(service=service, options=chrome_options)
-   itens = getStocks(driver)
+   products = getStocks(driver)
    # jsonData = json.dumps([ob.__dict__ for ob in itens])
    # save_file(jsonData, "estoque_embramaco2.json")
-   saveOrUpdate(itens)
+   # saveOrUpdate(products)
 
 except Exception as e:
    print("ERROR:", e)
