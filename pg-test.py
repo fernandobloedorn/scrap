@@ -20,7 +20,7 @@ products = []
 
 product = Product()
 
-product.code = "TN00661RZA"
+product.code = "123"
 product.name = "60,00 61034 TELHA"
 product.line = "Acetinado"
 product.reference = "A"

@@ -2,8 +2,8 @@ from .connection_service import getConnection
 import util.date_util as dateUtil
 
 SELECT = "SELECT id FROM produto WHERE codigo = %s;"
-INSERT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha) VALUES( %s, %s, %s, %s) RETURNING id;"
-UPDATE = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s WHERE id = %s;"
+INSERT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha, dt_cadastro) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP) RETURNING id;"
+UPDATE = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
 
 def saveOrUpdate(products):
     
