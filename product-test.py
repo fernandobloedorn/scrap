@@ -11,11 +11,13 @@ ref = "A"
 lote = "0669A-32-1104-21-2A"
 saldoCdi = "1.651,20"
 saldoEmbramaco = "0,00"
-programacao = "03/11/2021"
+programacao = ""
 
 # print("Saldo:", floatUtil.parse(saldoCdi))
 
 a = dateUtil.parse(programacao)
+a = dateUtil.dateToString(a)
+# a = dateUtil.today()
 
 print ("The type of the date is now",  type(a))
 print ("The date is", a)

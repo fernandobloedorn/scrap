@@ -6,8 +6,12 @@ INSERT_PRODUCT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha, 
 UPDATE_PRODUCT = "UPDATE produto SET nome_tecnico = %s, referencia = %s, linha = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
 
 SELECT_LOT = "SELECT id FROM produto_lote WHERE produto_id = %s AND lote = %s;"
-INSERT_LOT = "INSERT INTO produto_lote (produto_id, lote, saldo_cdi, saldo_embramaco, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
-UPDATE_LOT = "UPDATE produto SET saldo_cdi = %s, saldo_embramaco = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
+INSERT_LOT = "INSERT INTO produto_lote (produto_id, lote, saldo_cdi, saldo_embramaco, dt_programacao, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
+UPDATE_LOT = "UPDATE produto_lote SET saldo_cdi = %s, saldo_embramaco = %s, dt_programacao = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
+
+SELECT_LOT_INVENTORY = "SELECT id FROM produto_lote_saldo WHERE produto_lote_id = %s AND dt_esotque = %s;"
+INSERT_LOT_INVENTORY = "INSERT INTO produto_lote_saldo (produto_lote_id, saldo_cdi, saldo_embramaco, dt_estoque) VALUES( %s, %s, %s, %s) RETURNING id;"
+UPDATE_LOT_INVENTORY = "UPDATE produto_lote_saldo SET saldo_cdi = %s, saldo_embramaco = %s WHERE id = %s;"
 
 def saveOrUpdate(products):
     
@@ -39,13 +43,30 @@ def saveOrUpdate(products):
 
             if result is not None:
                 idLot = result[0]
-                cur.execute(UPDATE_LOT, (product.inventory_cdi, product.inventory_embraco, idLot))
+                cur.execute(UPDATE_LOT, (product.inventory_cdi, product.inventory_embraco, product.programation, idLot))
                 conn.commit()
 
             else:
-                cur.execute(INSERT_LOT, (idProduct, product.lot, product.inventory_cdi, product.inventory_embraco))
+                cur.execute(INSERT_LOT, (idProduct, product.lot, product.inventory_cdi, product.inventory_embraco, product.programation))
                 conn.commit()
-                idProduct = cur.fetchone()[0]
+                idLot = cur.fetchone()[0]
+
+            if idLot is not None:
+
+                date = dateUtil.today()
+
+                cur.execute(SELECT_LOT_INVENTORY, (idLot, date))
+                result = cur.fetchone()
+
+                if result is not None:
+                    idLotInventory = result[0]
+                    cur.execute(UPDATE_LOT_INVENTORY, (product.inventory_cdi, product.inventory_embraco, idLotInventory))
+                    conn.commit()
+
+                else:
+                    cur.execute(INSERT_LOT_INVENTORY, (idLot, product.inventory_cdi, product.inventory_embraco, date))
+                    conn.commit()
+
 
 
             # print(p.codigo, "-", p.produto)

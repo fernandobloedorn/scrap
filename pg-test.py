@@ -5,7 +5,13 @@ from models.product import Product
 import util.float_util as floatUtil
 import util.date_util as dateUtil
 
+
 load_dotenv()
+
+a = dateUtil.now() 
+
+print ("The type of the date is now",  type(a))
+print ("The date is", a)
 
 # conn = getConnectin()
 # cur = conn.cursor()
@@ -16,19 +22,19 @@ load_dotenv()
 
 # conn.close()
 
-products = []
+# products = []
 
-product = Product()
+# product = Product()
 
-product.code = "123"
-product.name = "60,00 61034 TELHA"
-product.line = "Acetinado"
-product.reference = "A"
-product.lot = "0669A-32-1104-21-2A"
-product.inventory_cdi = floatUtil.parse("1.651,20")
-product.inventory_embraco = floatUtil.parse("0,00")
-product.programation = dateUtil.parse("03/11/2021")
+# product.code = "123"
+# product.name = "60,00 61034 TELHA"
+# product.line = "Acetinado"
+# product.reference = "A"
+# product.lot = "0669A-32-1104-21-2A"
+# product.inventory_cdi = floatUtil.parse("1.651,20")
+# product.inventory_embraco = floatUtil.parse("0,00")
+# product.programation = dateUtil.parse("03/11/2021")
 
-products.append(product)
+# products.append(product)
 
-saveOrUpdate(products)
+# saveOrUpdate(products)
