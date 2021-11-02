@@ -9,7 +9,7 @@ SELECT_LOT = "SELECT id FROM produto_lote WHERE produto_id = %s AND lote = %s;"
 INSERT_LOT = "INSERT INTO produto_lote (produto_id, lote, saldo_cdi, saldo_embramaco, dt_programacao, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
 UPDATE_LOT = "UPDATE produto_lote SET saldo_cdi = %s, saldo_embramaco = %s, dt_programacao = %s, dt_alteracao = CURRENT_TIMESTAMP WHERE id = %s;"
 
-SELECT_LOT_INVENTORY = "SELECT id FROM produto_lote_saldo WHERE produto_lote_id = %s AND dt_esotque = %s;"
+SELECT_LOT_INVENTORY = "SELECT id FROM produto_lote_saldo WHERE produto_lote_id = %s AND dt_estoque = %s;"
 INSERT_LOT_INVENTORY = "INSERT INTO produto_lote_saldo (produto_lote_id, saldo_cdi, saldo_embramaco, dt_estoque) VALUES( %s, %s, %s, %s) RETURNING id;"
 UPDATE_LOT_INVENTORY = "UPDATE produto_lote_saldo SET saldo_cdi = %s, saldo_embramaco = %s WHERE id = %s;"
 
