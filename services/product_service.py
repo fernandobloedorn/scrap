@@ -14,7 +14,7 @@ SELECT_LOT_INVENTORY = "SELECT id FROM produto_lote_saldo WHERE produto_lote_id 
 INSERT_LOT_INVENTORY = "INSERT INTO produto_lote_saldo (produto_lote_id, saldo_cdi, saldo_embramaco, dt_estoque) VALUES( %s, %s, %s, %s) RETURNING id;"
 UPDATE_LOT_INVENTORY = "UPDATE produto_lote_saldo SET saldo_cdi = %s, saldo_embramaco = %s WHERE id = %s;"
 
-SELECT_PRODUCT_JOIN_LOT = """SELECT produto.codigo, produto.nome_tecnico nome, produto.linha, produto.referencia, 
+SELECT_PRODUCT_JOIN_LOT = """SELECT produto.codigo, produto.nome_tecnico, produto.linha, produto.referencia, 
                           produto_lote.lote, produto_lote.saldo_cdi, produto_lote.saldo_embramaco, produto_lote.dt_programacao 
                           FROM produto JOIN produto_lote on produto.id = produto_lote.produto_id 
                           WHERE produto_lote.dt_alteracao >= %s
@@ -112,7 +112,7 @@ def findAll():
 
     for row in cur.fetchall():
         product = Product()
-        product.core = row[0]
+        product.code = row[0]
         product.name = row[1]
         product.line = row[2]
         product.reference = row[3]
