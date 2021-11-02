@@ -81,7 +81,7 @@ def getStocks(driver: WebDriver):
          if cont <= 2:
             continue
 
-         if cont >= 20:
+         if cont >= 30:
              break;
          
          tds = tr.find_elements(By.TAG_NAME, 'td')
@@ -110,11 +110,12 @@ def getStocks(driver: WebDriver):
             elif col == 7:
                product.inventory_embramaco = floatUtil.parse(text)
             elif col == 8:
+               print("Data:", text)
                product.programation = dateUtil.dateToString(dateUtil.parse(text))
          
          # print(text)
 
-         print(product.code, product.name, product.line, product.reference, product.lot, product.inventory_cdi, product.inventory_embramaco, product.programation)
+         print(product.code, product.name, "Data", product.programation)
 
          products.append(product)
 
