@@ -109,8 +109,9 @@ def findAll():
 
     cur.execute(SELECT_PRODUCT_JOIN_LOT, ("2021-11-02 00:00:00",))
 
-    for p in cur.fetchall():
-        print( "Codigo", p.codigo )
+    for row in cur.fetchall():
+        print( "Codigo", row[0] )
+        print( "Nome", row[1] )
 
     cur.close()
     conn.close()
