@@ -17,3 +17,11 @@ CREATE TABLE produto_lote_saldo
   saldo_embramaco NUMERIC(15,3),
   dt_estoque date
 )
+
+SELECT produto.codigo, produto.nome_tecnico nome,  produto.linha, produto.referencia, 
+produto_lote.lote, produto_lote.saldo_cdi, produto_lote.saldo_embramaco, produto_lote.dt_programacao
+FROM produto 
+JOIN produto_lote on produto.id = produto_lote.produto_id 
+WHERE produto_lote.dt_alteracao >= '2021-11-02 00:00:00'
+ORDER BY produto.codigo, produto_lote.lote 
+LIMIT 1;
