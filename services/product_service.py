@@ -18,7 +18,7 @@ SELECT_PRODUCT_JOIN_LOT = """SELECT produto.codigo, produto.nome_tecnico nome, p
                           produto_lote.lote, produto_lote.saldo_cdi, produto_lote.saldo_embramaco, produto_lote.dt_programacao 
                           FROM produto JOIN produto_lote on produto.id = produto_lote.produto_id 
                           WHERE produto_lote.dt_alteracao >= %s
-                          ORDER BY produto.codigo, produto_lote.lote LIMIT 10;"""
+                          ORDER BY produto.codigo, produto_lote.lote LIMIT 50;"""
 
 def saveOrUpdate(products):
     
