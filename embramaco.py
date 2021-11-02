@@ -82,8 +82,8 @@ def getStocks(driver: WebDriver):
             continue
 
          # For test with less records
-         if cont >= 50:
-             break;
+         # if cont >= 50:
+         #     break;
          
          tds = tr.find_elements(By.TAG_NAME, 'td')
          

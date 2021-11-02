@@ -78,7 +78,7 @@ def saveOrUpdate(products):
                 else:
                     cur.execute(INSERT_LOT_INVENTORY, (idLot, product.inventory_cdi, product.inventory_embraco, date))
                     conn.commit()
-                    updateLotInventory += 1
+                    insertLotInventory += 1
 
 
 
