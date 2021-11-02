@@ -1,5 +1,6 @@
 from .connection_service import getConnection
 import util.date_util as dateUtil
+from models.product import Product
 
 SELECT_PRODUCT = "SELECT id FROM produto WHERE codigo = %s;"
 INSERT_PRODUCT = "INSERT INTO produto (codigo, nome_tecnico, referencia, linha, dt_cadastro, dt_alteracao) VALUES( %s, %s, %s, %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id;"
@@ -13,7 +14,7 @@ SELECT_LOT_INVENTORY = "SELECT id FROM produto_lote_saldo WHERE produto_lote_id 
 INSERT_LOT_INVENTORY = "INSERT INTO produto_lote_saldo (produto_lote_id, saldo_cdi, saldo_embramaco, dt_estoque) VALUES( %s, %s, %s, %s) RETURNING id;"
 UPDATE_LOT_INVENTORY = "UPDATE produto_lote_saldo SET saldo_cdi = %s, saldo_embramaco = %s WHERE id = %s;"
 
-SELECT_PRODUCT_JOIN_LOT = """SELECT produto.codigo, produto.nome_tecnico nome,  produto.linha, produto.referencia, 
+SELECT_PRODUCT_JOIN_LOT = """SELECT produto.codigo, produto.nome_tecnico nome, produto.linha, produto.referencia, 
                           produto_lote.lote, produto_lote.saldo_cdi, produto_lote.saldo_embramaco, produto_lote.dt_programacao 
                           FROM produto JOIN produto_lote on produto.id = produto_lote.produto_id 
                           WHERE produto_lote.dt_alteracao >= %s
@@ -107,11 +108,20 @@ def findAll():
     conn = getConnection()
     cur = conn.cursor()
 
-    cur.execute(SELECT_PRODUCT_JOIN_LOT, ("2021-11-02 00:00:00",))
+    cur.execute(SELECT_PRODUCT_JOIN_LOT, (dateUtil.today() + " 00:00:00",))
 
     for row in cur.fetchall():
-        print( "Codigo", row[0] )
-        print( "Nome", row[1] )
+        product = Product()
+        product.core = row[0]
+        product.name = row[1]
+        product.line = row[2]
+        product.reference = row[3]
+        product.lot = row[4]
+        product.inventory_cdi = row[5]
+        product.inventory_embraco = row[6]
+        product.programation = row[7]
+
+        products.append(product)
 
     cur.close()
     conn.close()
