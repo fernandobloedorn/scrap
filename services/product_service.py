@@ -15,6 +15,15 @@ UPDATE_LOT_INVENTORY = "UPDATE produto_lote_saldo SET saldo_cdi = %s, saldo_embr
 
 def saveOrUpdate(products):
     
+    insertProduct = 0
+    updateProduct = 0
+    insertLot = 0
+    updateLot = 0
+    insertLotInventory = 0
+    updateLotInventory = 0
+
+    idProduct = None 
+    
     conn = getConnection()
     cur = conn.cursor()
 
@@ -23,17 +32,17 @@ def saveOrUpdate(products):
         cur.execute(SELECT_PRODUCT, (product.code,))
         result = cur.fetchone()
 
-        idProduct = None 
-
         if result is not None:
             idProduct = result[0]
             cur.execute(UPDATE_PRODUCT, (product.name, product.reference, product.line, idProduct))
             conn.commit()
+            updateProduct += 1
 
         else:
             cur.execute(INSERT_PRODUCT, (product.code, product.name, product.reference, product.line))
             conn.commit()
             idProduct = cur.fetchone()[0]
+            insertProduct += 1
 
         if idProduct is not None:
             cur.execute(SELECT_LOT, (idProduct, product.lot))
@@ -45,11 +54,13 @@ def saveOrUpdate(products):
                 idLot = result[0]
                 cur.execute(UPDATE_LOT, (product.inventory_cdi, product.inventory_embraco, product.programation, idLot))
                 conn.commit()
+                updateLot += 1
 
             else:
                 cur.execute(INSERT_LOT, (idProduct, product.lot, product.inventory_cdi, product.inventory_embraco, product.programation))
                 conn.commit()
                 idLot = cur.fetchone()[0]
+                insertLot += 1
 
             if idLot is not None:
 
@@ -62,10 +73,12 @@ def saveOrUpdate(products):
                     idLotInventory = result[0]
                     cur.execute(UPDATE_LOT_INVENTORY, (product.inventory_cdi, product.inventory_embraco, idLotInventory))
                     conn.commit()
+                    updateLotInventory += 1
 
                 else:
                     cur.execute(INSERT_LOT_INVENTORY, (idLot, product.inventory_cdi, product.inventory_embraco, date))
                     conn.commit()
+                    updateLotInventory += 1
 
 
 
@@ -78,6 +91,10 @@ def saveOrUpdate(products):
 
     cur.close()
     conn.close()
+
+    print("Produtos -> Novos:", insertProduct, "- Atualizados:", updateProduct)
+    print("Lotes -> Novos:", insertLot, "- Atualizados:", updateLot)
+    print("Data estoque -> Novos:", insertLotInventory, "- Atualizados:", updateLotInventory)
 
 # CREATE OR REPLACE FUNCTION cadastra_produto(character, character, character, character, numeric, character, character)
 #   RETURNS void AS
