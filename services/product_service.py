@@ -110,7 +110,7 @@ def findAll():
     cur.execute(SELECT_PRODUCT_JOIN_LOT, ("2021-11-02 00:00:00",))
 
     for p in cur.fetchall():
-        print( "id", p.id )
+        print( "Codigo", p.codigo )
 
     cur.close()
     conn.close()
