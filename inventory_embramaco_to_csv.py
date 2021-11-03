@@ -10,6 +10,6 @@ products = findAll()
 
 print("Produtos " + str(products.__len__()))
 
-if products.__len__() > 0:
-    fileUtil.productsToCsv("estoque_embramaco.csv", products)
-    upload_file("estoque_embramaco.csv")
+# if products.__len__() > 0:
+#     fileUtil.productsToCsv("estoque_embramaco.csv", products)
+upload_file("estoque_embramaco.csv")
