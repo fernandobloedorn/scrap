@@ -1,14 +1,18 @@
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 
-import api.google_drive.authentication as authentication
+# import authentication
 
-def upload_file(fileName):
+def fileUpload(fileName, fileContent):
 
     gauth = GoogleAuth()
-    authentication.GoogleDriveAuthentication(gauth)
+    # authentication.GoogleDriveAuthentication(gauth)
 
     drive = GoogleDrive(gauth)
 
+    # fileName    = 'com_content.txt'
+    # fileContent = 'hello.txt'
+
     file = drive.CreateFile({"parents":  [{'id': '1T9xL8H5cSmqJAyVRCun8MTqBgzYiv9-w'}], 'title': fileName}) # id da pasta Mais Trading
+    file.SetContentFile(fileContent)
     file.Upload()
