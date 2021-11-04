@@ -1,7 +1,7 @@
 import csv
   
 def productsToCsv(file, products): 
-    with open('csv/' + file, 'w',) as csvfile:
+    with open('/home/ubuntu/python/scrap/csv/' + file, 'w',) as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Codigo', 'Nome', 'Linha', 'Referencia', 'Lote', 'Saldo_CDI', 'Saldo_embramaco', 'Programacao'])
         for product in products:
