@@ -12,4 +12,4 @@ print("Produtos " + str(products.__len__()))
 
 if products.__len__() > 0:
     fileUtil.productsToCsv("embramaco.csv", products)
-    fileUpload("estoque_embramaco.csv", "csv/embramaco.csv")
+    fileUpload("estoque_embramaco.csv", "/home/ubuntu/python/scrap/csv/embramaco.csv")
